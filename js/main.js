@@ -43,13 +43,81 @@ document.querySelectorAll(".product-item").forEach(card=>card.classList.toggle("
 }));
 }
 const recipes = [
- {name:"Bruschettas con tomate y aceite de oliva",cat:"Entradas",time:"15 min",level:"Fácil",img:"https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?auto=format&fit=crop&w=900&q=85",desc:"Pan tostado, tomate fresco, hierbas y un buen hilo de aceite."},
- {name:"Ensalada mediterránea",cat:"Entradas",time:"20 min",level:"Fácil",img:"https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=900&q=85",desc:"Una combinación fresca, colorida y llena de textura."},
- {name:"Vegetales al horno con oliva",cat:"Principales",time:"35 min",level:"Fácil",img:"assets/conservas-gourmet.webp",desc:"Vegetales dorados con hierbas y aceite de oliva."},
- {name:"Pan casero con aceite y hierbas",cat:"Consejos",time:"10 min",level:"Fácil",img:"https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=900&q=85",desc:"Una forma simple de disfrutar los aromas del aceite."},
- {name:"Pasta con tomates y aceitunas",cat:"Principales",time:"25 min",level:"Media",img:"https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=900&q=85",desc:"Una receta reconfortante con ingredientes sencillos."},
- {name:"Cómo elegir y conservar el aceite",cat:"Consejos",time:"5 min",level:"Guía",img:"assets/aceite-oliva.webp",desc:"Consejos básicos para cuidar aroma, sabor y frescura."}
+ {name:"Bruschettas con tomate y aceite de oliva",cat:"Entradas",time:"15 min",level:"Fácil",img:"https://images.unsplash.com/photo-1572695157366-5e585ab2b69f?auto=format&fit=crop&w=900&q=85",desc:"Pan tostado, tomate fresco, hierbas y un buen hilo de aceite.",ingredients:["4 rebanadas de pan artesanal","2 tomates maduros","Aceite de oliva extra virgen OLIVARÉ","Hojas de albahaca fresca","Sal y pimienta a gusto"],steps:["Cortá los tomates en cubos pequeños y mezclalos con albahaca, sal y pimienta.","Tostá las rebanadas de pan hasta que estén doradas.","Distribuí el tomate sobre el pan y terminá con un hilo de aceite de oliva."]},
+ {name:"Ensalada mediterránea",cat:"Entradas",time:"20 min",level:"Fácil",img:"https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=900&q=85",desc:"Una combinación fresca, colorida y llena de textura.",ingredients:["Hojas verdes variadas","1 tomate","1 pepino","Aceitunas verdes o negras","Aceite de oliva extra virgen OLIVARÉ","Jugo de limón, sal y pimienta"],steps:["Lavá y secá las verduras.","Cortá el tomate y el pepino en trozos y mezclalos con las hojas verdes.","Agregá las aceitunas y condimentá con aceite de oliva, limón, sal y pimienta."]},
+ {name:"Vegetales al horno con oliva",cat:"Principales",time:"35 min",level:"Fácil",img:"assets/conservas-gourmet.webp",desc:"Vegetales dorados con hierbas y aceite de oliva.",ingredients:["1 zucchini","1 berenjena pequeña","1 morrón","1 cebolla morada","Aceite de oliva OLIVARÉ","Romero, sal y pimienta"],steps:["Precalentá el horno a 200 °C.","Cortá los vegetales en trozos similares y distribuilos en una fuente.","Condimentá con aceite de oliva, romero, sal y pimienta.","Horneá durante 25 a 30 minutos, hasta que estén tiernos y dorados."]},
+ {name:"Pan casero con aceite y hierbas",cat:"Consejos",time:"10 min",level:"Fácil",img:"https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=900&q=85",desc:"Una forma simple de disfrutar los aromas del aceite.",ingredients:["Pan casero o artesanal","Aceite de oliva extra virgen OLIVARÉ","Orégano o romero","Una pizca de sal"],steps:["Cortá el pan en rebanadas.","Serví el aceite de oliva en un cuenco pequeño.","Agregá las hierbas y una pizca de sal.","Mojá el pan en el aceite y disfrutá."]},
+ {name:"Pasta con tomates y aceitunas",cat:"Principales",time:"25 min",level:"Media",img:"https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=900&q=85",desc:"Una receta reconfortante con ingredientes sencillos.",ingredients:["250 g de pasta","1 taza de tomates cherry","Aceitunas negras descarozadas","2 cucharadas de aceite de oliva OLIVARÉ","Ajo y albahaca a gusto"],steps:["Cociná la pasta en agua con sal siguiendo las indicaciones del envase.","Salteá el ajo y los tomates con aceite de oliva.","Sumá las aceitunas y mezclá con la pasta escurrida.","Terminá con albahaca fresca y un hilo de aceite."]},
+ {name:"Cómo elegir y conservar el aceite",cat:"Consejos",time:"5 min",level:"Guía",img:"assets/aceite-oliva.webp",desc:"Consejos básicos para cuidar aroma, sabor y frescura.",ingredients:["Elegí un aceite en envase oscuro o protegido de la luz","Guardalo lejos del calor y la humedad","Cerrá bien la botella después de usarla"],steps:["Conservá el aceite en un lugar fresco y alejado de la luz directa.","Evitá dejar la botella cerca del horno o de fuentes de calor.","Cerrá el envase después de cada uso para preservar mejor sus cualidades."]}
 ];
+
+
+function showRecipeModal(recipe) {
+  let modalElement = document.getElementById("recipe-detail-modal");
+
+  if (!modalElement) {
+    modalElement = document.createElement("div");
+    modalElement.id = "recipe-detail-modal";
+    modalElement.className = "modal fade recipe-detail-modal";
+    modalElement.tabIndex = -1;
+    modalElement.setAttribute("aria-labelledby", "recipe-detail-title");
+    modalElement.setAttribute("aria-hidden", "true");
+    modalElement.innerHTML = `
+      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <span class="eyebrow mb-0">INSPIRACIÓN OLIVARÉ</span>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body p-0">
+            <img class="recipe-modal-image" id="recipe-modal-image" src="" alt="">
+            <div class="recipe-modal-content">
+              <span class="card-kicker" id="recipe-modal-category"></span>
+              <h2 id="recipe-detail-title"></h2>
+              <p class="recipe-modal-description" id="recipe-modal-description"></p>
+              <div class="recipe-modal-meta" id="recipe-modal-meta"></div>
+              <div class="row g-4">
+                <div class="col-md-5">
+                  <h3>Ingredientes</h3>
+                  <ul class="recipe-modal-list" id="recipe-modal-ingredients"></ul>
+                </div>
+                <div class="col-md-7">
+                  <h3>Preparación</h3>
+                  <ol class="recipe-modal-list recipe-modal-steps" id="recipe-modal-steps"></ol>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <span class="recipe-modal-signature">OLIVARÉ · El origen de lo extraordinario</span>
+            <button type="button" class="btn btn-olive" data-bs-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>`;
+    document.body.appendChild(modalElement);
+  }
+
+  const escapeHTML = (value) => String(value).replace(/[&<>"']/g, character => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
+  })[character]);
+
+  const image = modalElement.querySelector("#recipe-modal-image");
+  image.src = recipe.img;
+  image.alt = recipe.name;
+  modalElement.querySelector("#recipe-modal-category").textContent = recipe.cat;
+  modalElement.querySelector("#recipe-detail-title").textContent = recipe.name;
+  modalElement.querySelector("#recipe-modal-description").textContent = recipe.desc;
+  modalElement.querySelector("#recipe-modal-meta").innerHTML =
+    `<span><i class="bi bi-clock"></i> ${escapeHTML(recipe.time)}</span>
+     <span><i class="bi bi-check-circle"></i> ${escapeHTML(recipe.level)}</span>`;
+
+  modalElement.querySelector("#recipe-modal-ingredients").innerHTML =
+    (recipe.ingredients || []).map(item => `<li>${escapeHTML(item)}</li>`).join("");
+  modalElement.querySelector("#recipe-modal-steps").innerHTML =
+    (recipe.steps || []).map(step => `<li>${escapeHTML(step)}</li>`).join("");
+
+  bootstrap.Modal.getOrCreateInstance(modalElement).show();
+}
 
 const recipeCatalog=document.getElementById("recipe-catalog");
 
@@ -61,7 +129,7 @@ document.querySelectorAll(".recipe-item").forEach(card=>card.classList.toggle("d
 recipeCatalog.addEventListener("click",e=>{const b=e.target.closest("[data-recipe-open]");
 if(b){const r=recipes[Number(b.dataset.recipeOpen)];
 
-showToast(`${r.name}: ${r.desc}`)}});
+showRecipeModal(r)}});
 }
 const packs=[
  {name:"Pack Clásico",label:"Para todos los días",desc:"Una combinación esencial de aceite de oliva y aceitunas.",img:"assets/aceite-oliva.webp",items:"Aceite + aceitunas"},
